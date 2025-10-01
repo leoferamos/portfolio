@@ -14,6 +14,22 @@ const languageNames = {
 export function LanguageSelector() {
   const { language, setLanguage } = useI18n();
 
+  // Function to check if the browser supports emoji rendering
+  function isEmojiSupported(emoji: string) {
+    if (typeof document === 'undefined') return true;
+    const ctx = document.createElement('canvas').getContext('2d');
+    if (!ctx) return true;
+    ctx.font = '32px Arial';
+    ctx.fillText(emoji, 0, 32);
+    const data = ctx.getImageData(16, 16, 1, 1).data;
+    // If the pixel is not transparent, the emoji is supported
+    return data[3] !== 0;
+  }
+
+  const flagEmoji = languageFlags[language];
+  const flagImg = language === 'pt' ? '/flag-br.svg' : '/flag-gb.svg';
+  const showEmoji = isEmojiSupported(flagEmoji);
+
   const toggleLanguage = () => {
     setLanguage(language === 'pt' ? 'en' : 'pt');
   };
@@ -44,13 +60,21 @@ export function LanguageSelector() {
         }}
         className="flex items-center justify-center h-full w-full"
       >
-        <span 
-          className="text-lg" 
-          role="img" 
-          aria-label={languageNames[language]}
-        >
-          {languageFlags[language]}
-        </span>
+        {showEmoji ? (
+          <span 
+            className="text-lg" 
+            role="img" 
+            aria-label={languageNames[language]}
+          >
+            {flagEmoji}
+          </span>
+        ) : (
+          <img 
+            src={flagImg} 
+            alt={languageNames[language]} 
+            className="h-6 w-6 object-contain" 
+          />
+        )}
       </motion.div>
       <span className="sr-only">
         {language === 'pt' ? 'Alternar para inglês' : 'Switch to Portuguese'}
