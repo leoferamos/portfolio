@@ -82,7 +82,7 @@ export function AppContent() {
         realColor: '#F05032'
       },
       { 
-        name: 'Machine Learning', 
+        name: 'AI/ML', 
         logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pytorch/pytorch-original.svg',
         realColor: '#EE4C2C'
       },
