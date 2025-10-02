@@ -9,6 +9,36 @@ interface TechBadgeProps {
 }
 
 export function TechBadge({ name, logoUrl, svgContent, realColor, delay = 0 }: TechBadgeProps) {
+  // Mapping of technology names to their official documentation URLs
+  const DOCS_URLS: Record<string, string> = {
+    Go: 'https://go.dev/doc/',
+    Python: 'https://docs.python.org/3/',
+    Java: 'https://docs.oracle.com/en/java/',
+    React: 'https://react.dev/',
+    Spring: 'https://spring.io/projects/spring-framework',
+    'Spring Boot': 'https://docs.spring.io/spring-boot/',
+    Gin: 'https://gin-gonic.com/docs/',
+    FastAPI: 'https://fastapi.tiangolo.com/',
+    Docker: 'https://docs.docker.com/',
+    PostgreSQL: 'https://www.postgresql.org/docs/',
+    MySQL: 'https://dev.mysql.com/doc/',
+    MongoDB: 'https://www.mongodb.com/docs/',
+    Git: 'https://git-scm.com/doc',
+    'AI/ML': 'https://pytorch.org/docs/stable/index.html',
+    Blockchain: 'https://docs.soliditylang.org/',
+    AWS: 'https://docs.aws.amazon.com/',
+    Linux: 'https://docs.kernel.org/',
+    Kubernetes: 'https://kubernetes.io/docs/home/',
+    Terraform: 'https://developer.hashicorp.com/terraform/docs',
+    Redis: 'https://redis.io/docs/',
+    RabbitMQ: 'https://www.rabbitmq.com/docs',
+    Postman: 'https://learning.postman.com/docs/',
+    GraphQL: 'https://graphql.org/learn/',
+    Grafana: 'https://grafana.com/docs/',
+    Prometheus: 'https://prometheus.io/docs/',
+  };
+
+  const docUrl = DOCS_URLS[name];
   /**
    * Technology logos visibility configuration for theme adaptation
    * Categories based on original logo colors and visibility patterns
@@ -36,8 +66,13 @@ export function TechBadge({ name, logoUrl, svgContent, realColor, delay = 0 }: T
     }
   };
 
+  const Root: any = docUrl ? motion.a : motion.div;
+
   return (
-    <motion.div 
+    <Root
+      href={docUrl}
+      target={docUrl ? '_blank' : undefined}
+      rel={docUrl ? 'noopener noreferrer' : undefined}
       className="relative flex items-center gap-2 px-3 py-2 rounded-lg bg-card/60 backdrop-blur-sm border border-border/50 hover:bg-accent/90 transition-all duration-300 group cursor-pointer shadow-sm hover:shadow-md dark:shadow-none"
       style={{
         '--tech-color': realColor || '#666'
@@ -51,6 +86,7 @@ export function TechBadge({ name, logoUrl, svgContent, realColor, delay = 0 }: T
         borderColor: realColor || '#3b82f6'
       }}
       whileTap={{ scale: 0.98 }}
+      aria-label={docUrl ? `Abrir documentação de ${name}` : name}
     >
       {/* Hover border effect with brand color */}
       <div 
@@ -90,6 +126,6 @@ export function TechBadge({ name, logoUrl, svgContent, realColor, delay = 0 }: T
       <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors duration-300 z-10 relative whitespace-nowrap">
         {name}
       </span>
-    </motion.div>
+    </Root>
   );
 }
