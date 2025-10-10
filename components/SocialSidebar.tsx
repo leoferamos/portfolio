@@ -76,7 +76,7 @@ export function SocialSidebar() {
     },
     {
       icon: <Mail className="w-5 h-5" />,
-      href: "mailto:fernandesramosleonardo@gmail.com",
+      href: "mailto:leonardoramosdev@gmail.com",
       label: t.social.email
     },
     {
